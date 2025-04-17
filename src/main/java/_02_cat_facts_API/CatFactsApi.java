@@ -35,9 +35,14 @@ public class CatFactsApi {
         This request doesn't require url parameters, so you can omit the .uri() method call entirely
         */
 
-
+    	Mono<String> stringMono = webClient
+        		.get()
+                .retrieve()
+                .bodyToMono(String.class);
         //Collect the response from the Mono object
+    	String response = stringMono.block();
 
+        System.out.println(response);
 
         /*
         Print out the actual JSON response -
@@ -60,7 +65,7 @@ public class CatFactsApi {
 
         //Make the request, saving the response in an object of the type that you just created in your
         //data_transfer_objects package (CatWrapper)
-
+    	
         //Use block() to collect the response into a java object using the class you just created
 
         //return the Object
