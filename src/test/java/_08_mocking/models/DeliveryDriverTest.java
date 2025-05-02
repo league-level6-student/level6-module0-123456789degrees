@@ -40,19 +40,23 @@ class DeliveryDriverTest {
     @Test
     void itShouldRefuel() {
         //given
-
+    	boolean expected = true;
         //when
-
+    	when(car.fillTank(0)).thenReturn(true);
+    	boolean actual = deliveryDriver.refuel(0);
         //then
+    	assertEquals(expected, actual);
     }
 
     @Test
     void itShouldContactCustomer() {
         //given
-
+    	boolean expected = true;
         //when
-
+    	when(cellphone.call("")).thenReturn(true);
+    	boolean actual = deliveryDriver.contactCustomer("");
         //then
+    	assertEquals(expected, actual);
     }
 
 }
