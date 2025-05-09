@@ -55,7 +55,15 @@ class MyDonutShopTest {
     @Test
     void givenInsufficientDonutsRemaining_whenTakeOrder_thenThrowIllegalArgumentException() {
         //given
-
+    	myDonutShop.openForTheDay();
+    	Order order = new Order("CUSTOMER_NAME",
+                "CUSTOMER_PHONE_NUMBER",
+                6,
+                5.00,
+                "CREDIT_CARD_NUMBER",
+                true);
+    	when(bakeryService.getDonutsRemaining()).thenReturn(1);
+    	assertThrows(IllegalArgumentException.class, () -> myDonutShop.takeOrder(order));
         //when
 
         //then
@@ -63,10 +71,16 @@ class MyDonutShopTest {
 
     @Test
     void givenNotOpenForBusiness_whenTakeOrder_thenThrowIllegalStateException(){
-        //given
-
+        //given	
+    	myDonutShop.closeForTheDay();
+    	Order order = new Order("CUSTOMER_NAME",
+                "CUSTOMER_PHONE_NUMBER",
+                6,
+                5.00,
+                "CREDIT_CARD_NUMBER",
+                true);
         //when
-
+    	assertThrows(IllegalStateException.class, () -> myDonutShop.takeOrder(order));
         //then
     }
 
