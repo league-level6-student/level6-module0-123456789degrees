@@ -45,14 +45,14 @@ public class NewsApi {
         The resulting uri would look like:
         http://newsapi.org/v2/everything?q=pizza&sortBy=popularity&apiKey=59ac01326c584ac0a069a29798794bec
          */
-        Mono<String> stringMono = webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .queryParam("q", "pizza")
-                        .queryParam("sortBy", "popularity")
-                        .queryParam("apiKey", apiKey)
-                        .build())
-                .retrieve()
-                .bodyToMono(String.class);
+    	  Mono<String> stringMono = webClient.get()
+                  .uri(uriBuilder -> uriBuilder
+                          .queryParam("q", "Cows")
+                          .queryParam("searchIn", "title")
+                          .queryParam("apiKey", apiKey)
+                          .build())
+                  .retrieve()
+                  .bodyToMono(String.class);
 
         String response = stringMono.block();
 
@@ -63,13 +63,23 @@ public class NewsApi {
         Mono<ApiExampleWrapper> apiExampleWrapperMono = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .queryParam("q", topic)
-                        .queryParam("sortBy", "popularity")
+                        .queryParam("searchIn", "title")
                         .queryParam("apiKey", apiKey)
                         .build())
                 .retrieve()
                 .bodyToMono(ApiExampleWrapper.class);
-
-        return apiExampleWrapperMono.block();
+//        Mono<String> apiExampleWrapperMono2 = webClient.get()
+//                .uri(uriBuilder -> uriBuilder
+//                        .queryParam("q", topic)
+//                        .queryParam("apiKey", apiKey)
+//                        .build())
+//                .retrieve()
+//                .bodyToMono(String.class);
+        ApiExampleWrapper response = apiExampleWrapperMono.block();
+       // System.out.println(response);
+       
+        return response;
+        // return apiExampleWrapperMono.block();
     }
 
     public String findStory(String topic){

@@ -17,6 +17,7 @@ import _01_intro_to_APIs.data_transfer_objects.Result;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -68,17 +69,45 @@ class NewsApiTest {
         when(resultMonoMock.block())
                 .thenReturn(expectedResults);
         //when
-        
+        ApiExampleWrapper actualResults = newsApi.getNewsStoryByTopic(topic);
         //then
+        verify(webClientMock, times(1)).get();
+        assertEquals(expectedResults, actualResults);
     }
 
     @Test
     void itShouldFindStory(){
-        //given
+    	String topic = "Cows";
+        ApiExampleWrapper expectedResults = new ApiExampleWrapper();
+        Article article = new Article();
+        article.setContent("How are cows helping to prevent wildfires in Spain? Neil and Beth discuss this and teach you some new vocabulary.\n"
+        		+ "Find a full transcript, worksheet and interactive quiz for this episode at: https://… [+509 chars]");
+        article.setUrl("https://www.bbc.co.uk/programmes/p0l7jrvv");
+        ApiExampleWrapper expectedResults = new ApiExampleWrapper();
+        List<Article> list = new ArrayList<Article>();
+        list.add(article);
+        expectedResults.setArticles(list);
+        when(webClientMock.get())
+                .thenReturn(requestHeadersUriSpecMock);
+        when(requestHeadersUriSpecMock.uri((Function<UriBuilder, URI>) any()))
+                .thenReturn(requestHeadersSpecMock);
+        when(requestHeadersSpecMock.retrieve())
+                .thenReturn(responseSpecMock);
+        when(responseSpecMock.bodyToMono(ApiExampleWrapper.class))
+                .thenReturn(resultMonoMock);
+        when(resultMonoMock.block())
+                .thenReturn(expectedResults);
 
+        String expectedBook =
+        		articleTitle + " -\n"
+                        + articleContent
+                        + "\nFull article: " + articleURL;
         //when
+        String actualBook = newsApi.findStory(topic);
 
         //then
+        verify(webClientMock, times(1)).get();
+        assertEquals(expectedBook, actualBook);
     }
 
 
