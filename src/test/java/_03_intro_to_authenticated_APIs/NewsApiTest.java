@@ -78,11 +78,11 @@ class NewsApiTest {
     @Test
     void itShouldFindStory(){
     	String topic = "Cows";
-        ApiExampleWrapper expectedResults = new ApiExampleWrapper();
         Article article = new Article();
         article.setContent("How are cows helping to prevent wildfires in Spain? Neil and Beth discuss this and teach you some new vocabulary.\n"
         		+ "Find a full transcript, worksheet and interactive quiz for this episode at: https://… [+509 chars]");
         article.setUrl("https://www.bbc.co.uk/programmes/p0l7jrvv");
+        article.setTitle("Can cows prevent wildfires?");
         ApiExampleWrapper expectedResults = new ApiExampleWrapper();
         List<Article> list = new ArrayList<Article>();
         list.add(article);
@@ -99,9 +99,10 @@ class NewsApiTest {
                 .thenReturn(expectedResults);
 
         String expectedBook =
-        		articleTitle + " -\n"
-                        + articleContent
-                        + "\nFull article: " + articleURL;
+        		"Can cows prevent wildfires?" + " -\n"
+                        + "How are cows helping to prevent wildfires in Spain? Neil and Beth discuss this and teach you some new vocabulary.\n"
+                        + "Find a full transcript, worksheet and interactive quiz for this episode at: https://… [+509 chars]"
+                        + "\nFull article: " + "https://www.bbc.co.uk/programmes/p0l7jrvv";
         //when
         String actualBook = newsApi.findStory(topic);
 
